@@ -23,8 +23,11 @@ ______________
 
 The binary search tree and tests were written by Michael Sullivan and Will Weatherford. We did a kickass job. It includes three depth-first traversal methods: in-order, pre-order, and post order; and breadth-first traversal.
 
+The binary search tree has a delete(value) method, which deletes the passed value argument from the tree, while maintaining the rest of the values, and keeping the tree at least as balanced.
 
 ______________
+
+
 
 Sources:
 
