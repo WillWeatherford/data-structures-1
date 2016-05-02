@@ -15,7 +15,6 @@ def radix_sort(a_list, places=10):
         for bucket in buckets:
             a_list.extend(bucket)
             del bucket[:]
-    # return a_list
 
 
 if __name__ == "__main__":
