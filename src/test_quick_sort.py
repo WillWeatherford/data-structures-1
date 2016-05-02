@@ -5,7 +5,7 @@ import random
 import pytest
 import string
 
-FEW_UNIQUE = ['a' * 25 + 'b' * 25 + 'c' * 25 + 'd' * 25]
+FEW_UNIQUE = list('a' * 25 + 'b' * 25 + 'c' * 25 + 'd' * 25)
 random.shuffle(FEW_UNIQUE)
 
 EDGE_CASES = [

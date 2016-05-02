@@ -4,79 +4,30 @@
 import random
 import pytest
 
-RANDOM_INSTANCES = [random.sample(range(1000),
-                    random.randrange(2, 4)) for n in range(100)]
+FEW_UNIQUE = [0] * 25 + [1] * 25 + [2] * 25 + [3] * 25
+random.shuffle(FEW_UNIQUE)
+
+EDGE_CASES = [
+    [],  # Empty
+    [0],  # One item
+    list(range(100)),  # Already sorted
+    list(range(99, -1, -1)),  # Reversed
+    # Almost sorted
+    list(range(33)) + [66] + list(range(32, 66)) + [33] + list(range(67, 99)),
+    # Few unique
+    FEW_UNIQUE,
+]
+
+RANDOM_INT_LISTS = [random.sample(range(1000),
+                    random.randrange(2, 100)) for n in range(50)]
+
+TEST_CASES = EDGE_CASES + RANDOM_INT_LISTS
 
 
-@pytest.mark.parametrize("seq", RANDOM_INSTANCES)
+@pytest.mark.parametrize("seq", TEST_CASES)
 def test_radix_sort(seq):
-    """Test radix sort results equal build-in python sort results."""
+    """Test radix sort results equal built-in python sort results."""
     from radix_sort import radix_sort
     sorted_copy = sorted(seq)
     radix_sort(seq)
     assert seq == sorted_copy
-
-
-def test_sort_simple():
-    """Test on simple case."""
-    from radix_sort import radix_sort
-    a_list = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-    radix_sort(a_list)
-    assert a_list == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-
-def test_stable():
-    """Test identical items in list retain stable position on sort."""
-    from radix_sort import radix_sort
-    check_list = [1, 0, 2, 3, 2]
-    two_a = check_list[2]
-    two_b = check_list[4]
-    radix_sort(check_list)
-    assert check_list[2] is two_a
-    assert check_list[3] is two_b
-
-
-@pytest.mark.parametrize("seq", RANDOM_INSTANCES)
-def test_stable_random(seq):
-    """Test stability property on random lists."""
-    from radix_sort import radix_sort
-    seq = list(seq)
-    index_a, index_b = sorted(random.sample(range(len(seq)), 2))
-    val_a, val_b = 0, 0
-    seq[index_a], seq[index_b] = val_a, val_b
-    radix_sort(seq)
-    assert seq[0] is val_a
-    assert seq[1] is val_b
-
-
-@pytest.mark.parametrize("seq", RANDOM_INSTANCES)
-def test_stable_random_2(seq):
-    """Test that stability fails when sorting to end of list."""
-    from radix_sort import radix_sort
-    if len(seq) < 3:
-        return
-    seq = list(seq)
-    index_a, index_b = sorted(random.sample(range(len(seq)), 2))
-    val_a, val_b = 1000, 1000
-    seq[index_a], seq[index_b] = val_a, val_b
-    radix_sort(seq)
-    assert seq[-1] is val_a
-    assert seq[-2] is val_b
-
-
-@pytest.mark.parametrize("seq", RANDOM_INSTANCES)
-def test_stable_random_3(seq):
-    """Test stability property on random lists with random duplicate values."""
-    from radix_sort import radix_sort
-    if len(seq) < 2:
-        return
-    seq = list(seq)
-    index_a = random.randrange(len(seq) - 1)
-    index_b = random.randrange(index_a + 1, len(seq))
-    val_a = seq[index_a]
-    val_b = int(val_a)
-    seq[index_b] = val_b
-    radix_sort(seq)
-    index_a = seq.index(val_a)
-    assert seq[index_a + 1] is val_b
-

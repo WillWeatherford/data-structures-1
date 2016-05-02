@@ -1,9 +1,12 @@
 # _*_ encoding: utf-8 _*_
-"""Implement radix sort algorithm in Python."""
+"""Implement radix sort algorithm in Python.
+
+Works only for lists of positive ints up to specified number of decimal places.
+"""
 
 
-def radix_sort(a_list, places=5):
-    """Radix sort for positive numbers up a specified number of decimal places."""
+def radix_sort(a_list, places=10):
+    """Sort given list in place, for ints up to given decimal places."""
     buckets = [[] for x in range(10)]
     for digit in range(places):
         for number in a_list:
