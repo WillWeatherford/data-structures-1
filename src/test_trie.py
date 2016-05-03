@@ -51,6 +51,16 @@ def simple_trie():
     return Trie()
 
 
+@pytest.fixture
+def growth_trie():
+    """Return trie populated by similar words."""
+    from trie import Trie
+    instance = Trie()
+    for word in GROWTH_WORDS:
+        instance.insert(word)
+    return instance
+
+
 def test_insert_1(simple_trie):
     """Test that we can insert single item into trie."""
     simple_trie.insert('a')
@@ -112,12 +122,10 @@ def test_dictionary_false(all_words, invalid_word):
     assert not all_words.contains(invalid_word)
 
 
-def test_traversal_1(simple_trie):
+def test_traversal_1(growth_trie):
     """Test depth-first traversal returns generator of dissimilar words."""
     for item in GROWTH_WORDS:
-        simple_trie.insert(item)
-    for item in GROWTH_WORDS:
-        assert item in list(simple_trie.traversal())
+        assert item in list(growth_trie.traversal())
 
 
 def test_traversal_2(simple_trie):
@@ -125,45 +133,38 @@ def test_traversal_2(simple_trie):
     assert list(simple_trie.traversal()) == []
 
 
-def test_traversal_3(simple_trie):
+def test_traversal_3(growth_trie):
     """Test that traversal does not return item not in trie."""
-    for item in GROWTH_WORDS:
-        simple_trie.insert(item)
-    assert 'valid' not in list(simple_trie.traversal())
+    assert 'valid' not in list(growth_trie.traversal())
 
 
-def test_traversal_4(simple_trie):
+def test_traversal_4(growth_trie):
     """Test traversal gives us the right number of items."""
-    for item in GROWTH_WORDS:
-        simple_trie.insert(item)
-    assert len(GROWTH_WORDS) == len(list(simple_trie.traversal()))
+    assert len(GROWTH_WORDS) == len(list(growth_trie.traversal()))
 
 
-def test_traversal_5(simple_trie):
+def test_traversal_5(growth_trie):
     """Test depth-first traversal.
 
     It should return generator of inserted words with identical starts.
     """
-    for item in GROWTH_WORDS:
-        simple_trie.insert(item)
-    assert set(simple_trie.traversal()) == set(GROWTH_WORDS)
+    assert set(growth_trie.traversal()) == set(GROWTH_WORDS)
 
 
-def test_traversal_6(simple_trie):
+def test_traversal_6(growth_trie):
     """Test that we can begin traversal from a given valid start value."""
-    for item in GROWTH_WORDS:
-        simple_trie.insert(item)
-    assert set(simple_trie.traversal('sto')) == set(['stomp', 'stow',
+    assert set(growth_trie.traversal('sto')) == set(['stomp', 'stow',
                                                      'stock', 'stop'])
 
 
-def test_traversal_7(simple_trie):
+def test_traversal_7(growth_trie):
     """Test that beginning traversal from bad start value raises error."""
-    for item in GROWTH_WORDS:
-        simple_trie.insert(item)
     with pytest.raises(ValueError):
-        list(simple_trie.traversal('x'))
+        list(growth_trie.traversal('x'))
 
+
+def test_traversal_depth_first(simple_trie):
+    """Test that traversal is depth-first."""
 
 # def test_a_word(all_words, word_in_dictionary):
 #     """For fun, separate test for each word in dictionary."""
