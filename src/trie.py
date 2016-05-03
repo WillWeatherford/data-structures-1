@@ -55,12 +55,9 @@ class Trie(object):
                     raise ValueError('Given start value is not in this trie.')
 
         for letter in current_dict:
-            print(letter)
-            print(current_dict[letter])
             if letter == WORD_TERMINUS:
                 yield start
             else:
                 for item in self.traversal(
                         start + letter, current_dict[letter]):
                     yield item
-

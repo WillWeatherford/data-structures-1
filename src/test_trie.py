@@ -2,6 +2,7 @@
 """Test trie module."""
 import pytest
 
+from trie import ALLOWED_INPUT
 
 INVALID_WORDS = ['lsf', 'mvniersdn', 'adsklieu', 'zqx', 'cdu', 'quc',
                  'aeka-mei', 'cwefmoi\'sadlfmwe']
@@ -16,7 +17,9 @@ def get_words():
     """Get a big set of values for thorough tests."""
     with open("/usr/share/dict/words", "r") as get_file:
         for line in get_file:
-            yield line.strip('\n')
+            word = line.strip('\n')
+            if set(word).issubset(ALLOWED_INPUT):
+                yield word
 
 
 @pytest.fixture(params=INVALID_WORDS)
@@ -137,7 +140,10 @@ def test_traversal_4(simple_trie):
 
 
 def test_traversal_5(simple_trie):
-    """Test depth-first traversal returns generator of inserted words with identical starts."""
+    """Test depth-first traversal.
+
+    It should return generator of inserted words with identical starts.
+    """
     for item in GROWTH_WORDS:
         simple_trie.insert(item)
     assert set(simple_trie.traversal()) == set(GROWTH_WORDS)
