@@ -163,8 +163,11 @@ def test_traversal_7(growth_trie):
         list(growth_trie.traversal('x'))
 
 
-def test_traversal_depth_first(simple_trie):
+def test_traversal_depth_first(growth_trie):
     """Test that traversal is depth-first."""
+    output = list(growth_trie.traversal())
+    assert output[0][:2] == output[0][:2]
+
 
 # def test_a_word(all_words, word_in_dictionary):
 #     """For fun, separate test for each word in dictionary."""
