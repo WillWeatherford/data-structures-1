@@ -64,7 +64,3 @@ class Trie(object):
                         start + letter, current_dict[letter]):
                     yield item
 
-
-    # def autocomplete(start):
-    #     """Return list of top four words completing start input."""
-
