@@ -53,11 +53,11 @@ class Trie(object):
                     current_dict = current_dict[letter]
                 except KeyError:
                     raise ValueError('Given start value is not in this trie.')
-
+        if WORD_TERMINUS in current_dict:
+            yield start
         for letter in current_dict:
-            if letter == WORD_TERMINUS:
-                yield start
-            else:
-                for item in self.traversal(
-                        start + letter, current_dict[letter]):
-                    yield item
+            if letter is WORD_TERMINUS:
+                continue
+            for item in self.traversal(
+                    start + letter, current_dict[letter]):
+                yield item

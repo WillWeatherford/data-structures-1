@@ -1,6 +1,7 @@
 # _*_ encoding: utf-8 _*_
 """Test trie module."""
 import pytest
+import random
 
 from trie import ALLOWED_INPUT
 
@@ -163,10 +164,32 @@ def test_traversal_7(growth_trie):
         list(growth_trie.traversal('x'))
 
 
-def test_traversal_depth_first(growth_trie):
+def test_traversal_depth_first_1(growth_trie):
     """Test that traversal is depth-first."""
     output = list(growth_trie.traversal())
-    assert output[0][:2] == output[0][:2]
+    assert output[0][:3] == output[0][:3]
+
+
+def test_traversal_depth_first_2(simple_trie):
+    """Test that traversal is depth-first."""
+    inputs = ['a', 'ab', 'abc', 'abcd', 'abcde', 'abcdef']
+    for i in inputs:
+        simple_trie.insert(i)
+    assert list(simple_trie.traversal()) == inputs
+
+
+def test_traversal_depth_first_3(simple_trie):
+    """Test that traversal is depth-first."""
+    words = []
+    word = ''
+    for n in range(random.randrange(5, 100)):
+        letter = random.choice(ALLOWED_INPUT)
+        word += letter
+        words.append(word)
+    random.shuffle(words)
+    for w in words:
+        simple_trie.insert(w)
+    assert list(simple_trie.traversal()) == list(sorted(words))
 
 
 # def test_a_word(all_words, word_in_dictionary):
