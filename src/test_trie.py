@@ -171,7 +171,10 @@ def test_traversal_depth_first_1(growth_trie):
 
 
 def test_traversal_depth_first_2(simple_trie):
-    """Test that traversal is depth-first."""
+    """Test that traversal is depth-first.
+
+    Create a series of "words" which should be stored in depth order.
+    """
     inputs = ['a', 'ab', 'abc', 'abcd', 'abcde', 'abcdef']
     for i in inputs:
         simple_trie.insert(i)
@@ -179,7 +182,11 @@ def test_traversal_depth_first_2(simple_trie):
 
 
 def test_traversal_depth_first_3(simple_trie):
-    """Test that traversal is depth-first."""
+    """Test that traversal is depth-first.
+
+    Create a series of random "words" which should be stored in depth
+    order.
+    """
     words = []
     word = ''
     for n in range(random.randrange(5, 100)):
@@ -192,6 +199,15 @@ def test_traversal_depth_first_3(simple_trie):
     assert list(simple_trie.traversal()) == list(sorted(words))
 
 
-# def test_a_word(all_words, word_in_dictionary):
-#     """For fun, separate test for each word in dictionary."""
-#     assert all_words.contains(word_in_dictionary)
+def test_traversal_depth_first_4(simple_trie):
+    """Test for depth first in most simple way."""
+    words = ['path', 'pat', 'pathed', 'funk', 'funky', 'fun']
+    for word in words:
+        simple_trie.insert(word)
+    output = list(simple_trie.traversal())
+    if output[0] == 'pat':
+        assert output[1:3] == ['path', 'pathed']
+    elif output[0] == 'fun':
+        assert output[1:3] == ['funk', 'funky']
+    else:
+        assert False
